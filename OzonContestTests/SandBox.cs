@@ -38,5 +38,9 @@ namespace OzonContestTests
         [TestMethod]
         public void G()
             => ExecuteTest((IReader reader, IWriter validator) => new G(reader, validator), true);
+
+        [TestMethod]
+        public void H()
+            => ExecuteTest((IReader reader, IWriter validator) => new H(reader, validator));
     }
 }
