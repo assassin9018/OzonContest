@@ -6,6 +6,7 @@ internal class OutputValidator : IWriter
 {
     private readonly string _fileName;
     private readonly StreamReader _streamReader;
+    private int _line;
     private bool disposedValue;
 
     public OutputValidator(string fileName)
@@ -15,8 +16,10 @@ internal class OutputValidator : IWriter
     }
 
     private string ReadStr()
-        => _streamReader.ReadLine() ?? throw new ArgumentNullException(nameof(_streamReader), "End of stream.");
-
+    {
+        _line++;
+        return _streamReader.ReadLine() ?? throw new ArgumentNullException(nameof(_streamReader), "End of stream.");
+    }
     public void Write<T>(T value)
     {
         string expected = ReadStr();
@@ -39,7 +42,7 @@ internal class OutputValidator : IWriter
     }
 
     protected void Fail(string actual, string expected) 
-        => throw new AnswerValidationException(expected, actual, _fileName);
+        => throw new AnswerValidationException(expected, actual, _fileName, _line);
 
     protected virtual void Dispose(bool disposing)
     {
