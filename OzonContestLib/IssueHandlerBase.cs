@@ -50,9 +50,28 @@ namespace OzonContestLib
         protected int[] ReadArray()
             => ReadLine().Split(' ').Select(x => int.Parse(x)).ToArray();
 
-        protected int[,] Read2DimArray()
+        protected int[,] ReadIntMatrix(int n, int m)
         {
-            throw new NotImplementedException();
+            var arr = new int[n, m];
+            for (int i = 0; i < n; i++)
+            {
+                string[] line = ReadLine().Split(' ');
+                for (int j = 0; j < m; j++)
+                    arr[i, j] = int.Parse(line[j]);
+            }
+            return arr;
+        }
+
+        protected char[,] ReadCharMatrix(int n, int m)
+        {
+            var arr = new char[n, m];
+            for (int i = 0; i < n; i++)
+            {
+                string line = ReadLine();
+                for (int j = 0; j < m; j++)
+                    arr[i, j] = line[j];
+            }
+            return arr;
         }
 
         protected int[][] ReadArrayWithSubs(int n, int _)
