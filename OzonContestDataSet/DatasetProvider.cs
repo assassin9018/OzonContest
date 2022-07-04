@@ -23,7 +23,7 @@ namespace OzonContestDataSet
             Directory.CreateDirectory(targetDir);
             using FileStream sourceFs = new(Path.Combine(datasetName, issueName + ".zip"), FileMode.Open, FileAccess.Read);
             using ZipArchive zip = new(sourceFs);
-            foreach (var entry in zip.Entries.Where(x=>x.Length > 0))
+            foreach (var entry in zip.Entries.Where(x=>!x.FullName.EndsWith('/')))
                 entry.ExtractToFile(Path.Combine(targetDir, entry.Name), true);
         }
     }
