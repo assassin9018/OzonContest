@@ -13,7 +13,7 @@ internal class OutputValidator : IWriter, IDisposable
 
     private const int MSecInOneSecond = 1000;
 
-    public OutputValidator(string fileName, int timeLimit = 30)
+    public OutputValidator(string fileName, int timeLimit)
     {
         _fileName = fileName;
         _streamReader = new StreamReader(fileName);
@@ -92,28 +92,5 @@ internal class OutputValidator : IWriter, IDisposable
         // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
         Dispose(disposing: true);
         GC.SuppressFinalize(this);
-    }
-}
-
-internal class OutputSplitValidator : OutputValidator
-{
-    public OutputSplitValidator(string fileName) : base(fileName)
-    {
-    }
-
-    protected override void Validate(string actual, string expected)
-    {
-        string[] splitedEx = expected.Split(' ');
-        if (splitedEx.Length > 1)
-        {
-            string[] splitedAc = actual.Split(' ');
-            if (splitedAc.Length != splitedEx.Length)
-                Fail(actual, expected);
-            HashSet<string> expectedSet = new(splitedEx);
-            if (!splitedAc.All(x => expectedSet.Contains(x)))
-                Fail(actual, expected);
-        }
-        else
-            base.Validate(actual, expected);
     }
 }

@@ -25,7 +25,7 @@ namespace OzonContestTests
 
         [TestMethod]
         public void D()
-            => ExecuteTest((IReader reader, IWriter validator) => new D(reader, validator));
+            => ExecuteTest((IReader reader, IWriter validator) => new D(reader, validator), new TestOptions{ CustomValidationRule = ContestD_CustomRule });
 
         [TestMethod]
         public void E()
@@ -37,7 +37,7 @@ namespace OzonContestTests
 
         [TestMethod]
         public void G()
-            => ExecuteTest((IReader reader, IWriter validator) => new G(reader, validator), true);
+            => ExecuteTest((IReader reader, IWriter validator) => new G(reader, validator));
 
         [TestMethod]
         public void H()
@@ -50,5 +50,23 @@ namespace OzonContestTests
         [TestMethod]
         public void J()
             => ExecuteTest((IReader reader, IWriter validator) => new J(reader, validator));
+
+        private static bool ContestD_CustomRule(string actual, string expected)
+        {
+            char[] vowels = new[] { 'e', 'u', 'i', 'o', 'a', 'y', 'E', 'U', 'I', 'O', 'A', 'Y' };
+            if (actual.Length != expected.Length)
+                return false;
+
+            bool olnyUpper = expected.ToUpperInvariant() == expected, olnyLower = expected.ToLowerInvariant() == expected;
+            bool anyVowel = false, anyСonsonants = false, anyDigit = false;
+            foreach (char c in expected)
+            {
+                anyVowel |= vowels.Contains(c);
+                anyСonsonants |= !vowels.Contains(c) && !char.IsDigit(c);
+                anyDigit |= char.IsDigit(c);
+            }
+            
+            return !olnyUpper && !olnyLower && anyVowel && anyСonsonants && anyDigit;
+        }
     }
 }

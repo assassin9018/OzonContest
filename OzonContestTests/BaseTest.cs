@@ -10,16 +10,41 @@ namespace OzonContestTests
     {
         protected string DatasetName = string.Empty;
 
-        protected void ExecuteTest(Func<IReader, IWriter, IIssueHandler> getHandler, bool useSplitValidation = false, [CallerMemberName]string issueName = null!)
+        private protected void ExecuteTest(Func<IReader, IWriter, IIssueHandler> getHandler, TestOptions? options = null, [CallerMemberName] string issueName = null!)
         {
-            foreach(var (question, answer) in DatasetProvider.GetFilesNames(DatasetName, issueName))
+            options = options ?? TestOptions.Default;
+            foreach (var (question, answer) in DatasetProvider.GetFilesNames(DatasetName, issueName))
             {
                 using var reader = new DatasetReader(question);
-                using var validator = useSplitValidation ? new OutputSplitValidator(answer) : new OutputValidator(answer);
+                using var validator = options.CustomValidationRule != null 
+                    ? new OutputValidatorWithCustomRule(answer, options.TimeLimit, options.CustomValidationRule) 
+                    : new OutputValidator(answer, options.TimeLimit);
                 var handler = getHandler(reader, validator);
                 handler.Run();
                 validator.EnsureAllDataRequested();
             }
+        }
+
+        private protected bool SplitValidationRule(string actual, string expected)
+        {
+            string[] splitedEx = expected.Split(' ');
+            string[] splitedAc = actual.Split(' ');
+
+            if (splitedAc.Length == splitedEx.Length)
+            {
+                HashSet<string> expectedSet = new(splitedEx);
+                return splitedAc.All(x => expectedSet.Contains(x));
+            }
+
+            return false;
+        }
+
+        private protected class TestOptions
+        {
+            public static TestOptions Default { get; } = new();
+
+            public int TimeLimit { get; init; } = 30;
+            public Func<string, string, bool>? CustomValidationRule { get; init; }
         }
     }
 }

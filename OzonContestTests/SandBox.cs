@@ -37,7 +37,9 @@ namespace OzonContestTests
 
         [TestMethod]
         public void G()
-            => ExecuteTest((IReader reader, IWriter validator) => new G(reader, validator), true);
+        {
+            ExecuteTest((IReader reader, IWriter validator) => new G(reader, validator), new TestOptions { CustomValidationRule = SplitValidationRule });
+        }
 
         [TestMethod]
         public void H()
