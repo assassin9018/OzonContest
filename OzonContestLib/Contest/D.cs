@@ -20,58 +20,58 @@ namespace OzonContestLib.Contest
         public override void Run()
         {
             //лютейший говнокод. Торопился
-            char[] glasnie = new[] { 'e', 'u', 'i', 'o', 'a', 'y', 'E', 'U', 'I', 'O', 'A', 'Y' };
+            char[] vowels = new[] { 'e', 'u', 'i', 'o', 'a', 'y', 'E', 'U', 'I', 'O', 'A', 'Y' };
             int count = ReadInt();
             for (int i = 0; i < count; i++)
             {
                 string pass = ReadLine();
 
                 bool olnyUpper = pass.ToUpperInvariant() == pass, olnyLower = pass.ToLowerInvariant() == pass;
-                bool anyGlasnie = false, anyNotGlasnie = false, anyDigit = false;
+                bool anyVowel = false, anyСonsonants = false, anyDigit = false;
                 foreach (char c in pass)
                 {
-                    anyGlasnie |= glasnie.Contains(c);
-                    anyNotGlasnie |= !glasnie.Contains(c) && !char.IsDigit(c);
+                    anyVowel |= vowels.Contains(c);
+                    anyСonsonants |= !vowels.Contains(c) && !char.IsDigit(c);
                     anyDigit |= char.IsDigit(c);
                 }
                 if (olnyLower)
                 {
-                    if (!anyGlasnie)
+                    if (!anyVowel)
                     {
-                        anyGlasnie = true;
-                        pass = pass + "E";
+                        anyVowel = true;
+                        pass += "E";
                     }
                     else
                     {
-                        anyNotGlasnie = true;
-                        pass = pass + "D";
+                        anyСonsonants = true;
+                        pass += "D";
                     }
                 }
                 if (olnyUpper)
                 {
-                    if (!anyGlasnie)
+                    if (!anyVowel)
                     {
-                        anyGlasnie = true;
-                        pass = pass + "e";
+                        anyVowel = true;
+                        pass += "e";
                     }
                     else
                     {
-                        anyNotGlasnie = true;
-                        pass = pass + "d";
+                        anyСonsonants = true;
+                        pass += "d";
                     }
                 }
-                if (!anyGlasnie)
+                if (!anyVowel)
                 {
-                    anyGlasnie = true;
-                    pass = pass + "e";
+                    anyVowel = true;
+                    pass += "e";
                 }
-                if (!anyNotGlasnie)
+                if (!anyСonsonants)
                 {
-                    anyNotGlasnie = true;
-                    pass = pass + "d";
+                    anyСonsonants = true;
+                    pass += "d";
                 }
                 if (!anyDigit)
-                    pass = pass + "1";
+                    pass += "1";
                 Write(pass);
             }
         }
