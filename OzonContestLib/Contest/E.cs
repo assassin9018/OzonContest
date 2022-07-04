@@ -16,7 +16,21 @@ namespace OzonContestLib.Contest
 
         public override void Run()
         {
-            throw new NotImplementedException();
+            int count = ReadInt();
+            for (int i = 0; i < count; i++)
+            {
+                _ = ReadInt();
+                int[] arr = ReadArray();
+                List<int> list = new(arr.Length+1);
+                list.Add(-1);
+                foreach(var item in arr)
+                    if(item != list[^1])
+                        list.Add(item);
+                if (list.Count == list.Distinct().Count())
+                    Write("YES");
+                else
+                    Write("NO");
+            }
         }
     }
 }
