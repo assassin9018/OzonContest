@@ -6,20 +6,26 @@ internal class OutputValidator : IWriter
 {
     private readonly string _fileName;
     private readonly StreamReader _streamReader;
+    private readonly int _startTimeInTicks;
+    private readonly int _timeLimitInSeconds;
     private int _line;
     private bool disposedValue;
 
-    public OutputValidator(string fileName)
+    private const int MSecInOneSecond = 1000;
+
+    public OutputValidator(string fileName, int timeLimit = 30)
     {
         _fileName = fileName;
         _streamReader = new StreamReader(fileName);
+        _timeLimitInSeconds = timeLimit;
+        _startTimeInTicks = Environment.TickCount;
     }
 
     private string ReadStr()
     {
         _line++;
         string result = string.Empty;
-        while(string.IsNullOrEmpty(result))
+        while (string.IsNullOrEmpty(result))
             result = _streamReader.ReadLine() ?? throw new ArgumentNullException(nameof(_streamReader), "End of test file, but there is output from handler.");
         return result;
     }
@@ -30,6 +36,7 @@ internal class OutputValidator : IWriter
             return;
 
         string expected = ReadStr();
+        ValidateExecutionTime();
         Validate(actual, expected);
     }
 
@@ -37,6 +44,8 @@ internal class OutputValidator : IWriter
     {
         string expected = ReadStr();
         string actual = string.Join(separator, values);
+
+        ValidateExecutionTime();
         Validate(actual, expected);
     }
 
@@ -46,17 +55,23 @@ internal class OutputValidator : IWriter
             Fail(actual, expected);
     }
 
+    private void ValidateExecutionTime()
+    {
+        if (Environment.TickCount > _startTimeInTicks + _timeLimitInSeconds * MSecInOneSecond)
+            throw new AnswerValidationException($"Time limit excited. Expected execution time - {_timeLimitInSeconds} sec. File - {_fileName}.");
+    }
+
     internal void EnsureAllDataRequested()
     {
         while (!_streamReader.EndOfStream)
         {
             string tStr = _streamReader.ReadLine()!;
-            if (!string.IsNullOrEmpty(tStr)) 
+            if (!string.IsNullOrEmpty(tStr))
                 throw new AnswerValidationException($"Not all answers receawed. Expected - {tStr}, file - {_fileName}, line - {_line}.");
         }
     }
 
-    protected void Fail(string actual, string expected) 
+    protected void Fail(string actual, string expected)
         => throw new AnswerValidationException($"expected - {expected}, actual - {actual}, file - {_fileName}, line - {_line}.");
 
     protected virtual void Dispose(bool disposing)
