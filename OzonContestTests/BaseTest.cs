@@ -18,7 +18,7 @@ namespace OzonContestTests
                 var validator = useSplitValidation ? new OutputSplitValidator(answer) : new OutputValidator(answer);
                 var handler = getHandler(reader, validator);
                 handler.Run();
-                Assert.AreEqual(true, validator.IsDataEnd(), "Получены не все ответы.");
+                validator.EnsureAllDataRequested();
             }
         }
     }

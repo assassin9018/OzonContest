@@ -18,15 +18,20 @@ internal class OutputValidator : IWriter
     private string ReadStr()
     {
         _line++;
-        return _streamReader.ReadLine() ?? throw new ArgumentNullException(nameof(_streamReader), "End of stream.");
+        string result = string.Empty;
+        while(string.IsNullOrEmpty(result))
+            result = _streamReader.ReadLine() ?? throw new ArgumentNullException(nameof(_streamReader), "End of test file, but there is output from handler.");
+        return result;
     }
     public void Write<T>(T value)
     {
-        string expected = ReadStr();
         string actual = (value as string) ?? value!.ToString()!;
+        if (string.IsNullOrEmpty(actual))
+            return;
+
+        string expected = ReadStr();
         Validate(actual, expected);
     }
-
 
     public void WriteRange<T>(IEnumerable<T> values, char separator = ' ')
     {
@@ -41,8 +46,18 @@ internal class OutputValidator : IWriter
             Fail(actual, expected);
     }
 
+    internal void EnsureAllDataRequested()
+    {
+        while (!_streamReader.EndOfStream)
+        {
+            string tStr = _streamReader.ReadLine()!;
+            if (!string.IsNullOrEmpty(tStr)) 
+                throw new AnswerValidationException($"Not all answers receawed. Expected - {tStr}, file - {_fileName}, line - {_line}.");
+        }
+    }
+
     protected void Fail(string actual, string expected) 
-        => throw new AnswerValidationException(expected, actual, _fileName, _line);
+        => throw new AnswerValidationException($"expected - {expected}, actual - {actual}, file - {_fileName}, line - {_line}.");
 
     protected virtual void Dispose(bool disposing)
     {
@@ -63,9 +78,6 @@ internal class OutputValidator : IWriter
         Dispose(disposing: true);
         GC.SuppressFinalize(this);
     }
-
-    internal bool IsDataEnd()
-        => _streamReader.EndOfStream;
 }
 
 internal class OutputSplitValidator : OutputValidator
