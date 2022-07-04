@@ -12,7 +12,7 @@ namespace OzonContestTests
 
         private protected void ExecuteTest(Func<IReader, IWriter, IIssueHandler> getHandler, TestOptions? options = null, [CallerMemberName] string issueName = null!)
         {
-            options = options ?? TestOptions.Default;
+            options ??= TestOptions.Default;
             foreach (var (question, answer) in DatasetProvider.GetFilesNames(DatasetName, issueName))
             {
                 using var reader = new DatasetReader(question);
@@ -25,7 +25,7 @@ namespace OzonContestTests
             }
         }
 
-        private protected bool SplitValidationRule(string actual, string expected)
+        private protected static bool SplitValidationRule(string actual, string expected)
         {
             string[] splitedEx = expected.Split(' ');
             string[] splitedAc = actual.Split(' ');

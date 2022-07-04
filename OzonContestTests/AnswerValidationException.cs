@@ -1,9 +1,8 @@
-﻿namespace OzonContestTests
+﻿namespace OzonContestTests;
+
+internal class AnswerValidationException : Exception
 {
-    internal class AnswerValidationException : Exception
+    public AnswerValidationException(string message) : base(message)
     {
-        public AnswerValidationException(string message) : base(message)
-        {
-        }
     }
 }
