@@ -2,7 +2,7 @@
 
 namespace OzonContestTests.Helpers;
 
-internal class DatasetReader : IReader
+internal class DatasetReader : IReader, IDisposable
 {
     private readonly StreamReader _streamReader;
     private bool disposedValue;

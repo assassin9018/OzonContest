@@ -3,11 +3,10 @@ using OzonContest.Helpers;
 
 namespace OzonContestLib
 {
-    public  abstract class IssueHandlerBase : IIssueHandler, IDisposable
+    public  abstract class IssueHandlerBase : IIssueHandler
     {
         private readonly IReader _reader;
         private readonly IWriter _writer;
-        private bool disposedValue;
 
         public string Name { get; }
         public abstract int Number { get; }
@@ -110,30 +109,5 @@ namespace OzonContestLib
         }
 
         #endregion Help methods
-
-        #region Dispose
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    if(_reader is IDisposable dr)
-                        dr.Dispose();
-                    if(_writer is IDisposable dw)
-                        dw.Dispose();
-                }
-                disposedValue = true;
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
-        }
-
-        #endregion Dispose
     }
 }

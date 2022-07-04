@@ -2,7 +2,7 @@
 
 namespace OzonContestTests.Helpers;
 
-internal class OutputValidator : IWriter
+internal class OutputValidator : IWriter, IDisposable
 {
     private readonly string _fileName;
     private readonly StreamReader _streamReader;

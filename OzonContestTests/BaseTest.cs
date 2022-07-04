@@ -14,8 +14,8 @@ namespace OzonContestTests
         {
             foreach(var (question, answer) in DatasetProvider.GetFilesNames(DatasetName, issueName))
             {
-                var reader = new DatasetReader(question);
-                var validator = useSplitValidation ? new OutputSplitValidator(answer) : new OutputValidator(answer);
+                using var reader = new DatasetReader(question);
+                using var validator = useSplitValidation ? new OutputSplitValidator(answer) : new OutputValidator(answer);
                 var handler = getHandler(reader, validator);
                 handler.Run();
                 validator.EnsureAllDataRequested();
