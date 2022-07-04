@@ -101,10 +101,10 @@ namespace OzonContestLib
 
         #region Help methods
 
-        protected static void BubbleSort<T1, T2>(T1[] array, Func<T1, T2> selector) where T2 : IComparable<T2>
+        protected static void BubbleSort<T1, T2>(IList<T1> array, Func<T1, T2> selector) where T2 : IComparable<T2>
         {
-            for (int i = 0; i < array.Length; i++)
-                for (int j = 1; j < array.Length; j++)
+            for (int i = 0; i < array.Count; i++)
+                for (int j = 1; j < array.Count; j++)
                     if (selector(array[j]).CompareTo(selector(array[j - 1])) < 0)
                         (array[j], array[j - 1]) = (array[j - 1], array[j]);
         }
