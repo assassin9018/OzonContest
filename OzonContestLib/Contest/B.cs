@@ -14,7 +14,6 @@ namespace OzonContestLib.Contest
 
         public override int Number { get; }
 
-        //todo проверить тест, решение правильное
         public override void Run()
         {
             int count = ReadInt();

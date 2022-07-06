@@ -14,9 +14,6 @@ public class D : IssueHandlerBase
 
     public override int Number { get; }
 
-    /// <summary>
-    /// todo подумать над тестами c несколькими вариантами ответов, решение правильное
-    /// </summary>
     public override void Run()
     {
         //лютейший говнокод. Торопился
