@@ -14,27 +14,30 @@ namespace OzonContestLib.Contest
 
         public override int Number { get; }
 
-        //todo решение правильное, но медленное
         public override void Run()
         {
             (int coresCount, int tasks) = Read2Int();
-            int[] coresTdp = ReadArray();
-            Array.Sort(coresTdp);
+            var coresTdp = ReadArray();
+            PriorityQueue<int, int> freeCores = new(coresTdp.Select(x => (x, x)));
+            PriorityQueue<(int endTime, int tdp), int> execurectiomQueue = new();
+
             long totalPower = 0;
-            int[] taskEndTime = new int[coresCount];
             for (int i = 0; i < tasks; i++)
             {
                 (int now, int duration) = Read2Int();
 
-                int coreIndex = 0;
-                while (coreIndex < coresCount && taskEndTime[coreIndex] > now)
-                    coreIndex++;
-
-                if (coreIndex != coresCount)
+                while (execurectiomQueue.Count > 0 && execurectiomQueue.Peek().endTime <= now)
                 {
-                    taskEndTime[coreIndex] = now + duration;
-                    totalPower += coresTdp[coreIndex] * (long)duration;
+                    int tdp = execurectiomQueue.Dequeue().tdp;
+                    freeCores.Enqueue(tdp, tdp);
                 }
+
+                if (freeCores.Count == 0)
+                    continue;
+
+                int minTdp = freeCores.Dequeue();
+                execurectiomQueue.Enqueue((now + duration, minTdp), now + duration);
+                totalPower += minTdp * (long)duration;
             }
             Write(totalPower);
         }
