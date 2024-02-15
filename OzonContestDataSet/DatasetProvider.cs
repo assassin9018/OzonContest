@@ -9,10 +9,18 @@ public class DatasetProvider
     public static IEnumerable<(string question, string answer)> GetFilesNames(string datasetName, string issueName)
     {
         EnsureFilesCreated(datasetName, issueName);
-        string targetDir = Path.Combine(_dirWithFiles, datasetName, issueName);
-        string[] fileNames = Directory.GetFiles(targetDir);
-        for (int i = 0; i < fileNames.Length; i += 2)
-            yield return (fileNames[i], fileNames[i + 1]);
+        var targetDir = Path.Combine(_dirWithFiles, datasetName, issueName);
+
+        string[] badFiles = ["._", ".DS"];
+        var fileNames = Directory.GetFiles(targetDir);
+        var testFiles = fileNames
+            // remove mac os specific files like a ._.ds_store
+            .Where(x => badFiles.All(bf => !Path.GetFileName(x).StartsWith(bf)))
+            .Order() // expected sequence like 01 | 01.a, but at mac os sort order is different
+            .ToArray();
+
+        for (int i = 0; i < testFiles.Length; i += 2)
+            yield return (testFiles[i], testFiles[i + 1]);
     }
 
     private static void EnsureFilesCreated(string datasetName, string issueName)

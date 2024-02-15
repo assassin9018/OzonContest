@@ -27,12 +27,12 @@ namespace OzonContestTests
 
         private protected static bool SplitValidationRule(string actual, string expected)
         {
-            string[] splitedEx = expected.Split(' ');
-            string[] splitedAc = actual.Split(' ');
+            var splitedEx = expected.Split(' ');
+            var splitedAc = actual.Split(' ');
 
             if (splitedAc.Length == splitedEx.Length)
             {
-                HashSet<string> expectedSet = new(splitedEx);
+                HashSet<string> expectedSet = [..splitedEx];
                 return splitedAc.All(x => expectedSet.Contains(x));
             }
 

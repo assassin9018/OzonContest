@@ -51,7 +51,7 @@ internal class OutputValidator : IWriter, IDisposable
 
     protected virtual void Validate(string actual, string expected)
     {
-        if (!expected.Equals(actual))
+        if (!expected.Trim().Equals(actual.Trim()))
             Fail(actual, expected);
     }
 
