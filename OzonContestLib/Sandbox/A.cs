@@ -1,27 +1,16 @@
 ﻿using OzonContest.Helpers;
 
-namespace OzonContestLib.Sandbox
+namespace OzonContestLib.Sandbox;
+
+public class A(IReader reader, IWriter writer) : IssueHandlerBase(reader, writer)
 {
-    public class A : IssueHandlerBase
+    public override void Run()
     {
-        public A()
+        int count = ReadInt();
+        for (int i = 0; i < count; i++)
         {
-        }
-
-        public A(IReader reader, IWriter writer) : base(reader, writer)
-        {
-        }
-
-        public override int Number { get; } = 1;
-
-        public override void Run()
-        {
-            int count = ReadInt();
-            for (int i = 0; i < count; i++)
-            {
-                var strs = Read2Int();
-                Write(strs.Item1 + strs.Item2);
-            }
+            var strs = Read2Int();
+            Write(strs.Item1 + strs.Item2);
         }
     }
 }

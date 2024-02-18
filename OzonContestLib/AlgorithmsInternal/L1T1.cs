@@ -4,18 +4,8 @@ using OzonContest.Helpers;
 
 namespace OzonContestLib.AlgorithmsInternal;
 
-public class L1T1 : IssueHandlerBase
+public class L1T1(IReader reader, IWriter writer) : IssueHandlerBase(reader, writer)
 {
-    public L1T1()
-    {
-    }
-
-    public L1T1(IReader reader, IWriter writer) : base(reader, writer)
-    {
-    }
-
-    public override int Number { get; } = 1;
-
     public override void Run()
     {
         var size = Read2Int();
@@ -46,7 +36,7 @@ public class L1T1 : IssueHandlerBase
             sb.Append(arr[idx] + " ");
         if (sb.Length > 0)
             sb.Remove(sb.Length - 1, 1);
-        
+
         Write(sb.ToString());
     }
 }

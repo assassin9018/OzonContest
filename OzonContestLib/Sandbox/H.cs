@@ -2,9 +2,9 @@
 
 namespace OzonContestLib.Sandbox;
 
-public class H : IssueHandlerBase
+public class H(IReader reader, IWriter writer) : IssueHandlerBase(reader, writer)
 {
-    private readonly static char[][][,] _templates = InitTemplates();
+    private readonly static char[][][,] Templates = InitTemplates();
 
     private static char[][][,] InitTemplates()
     {
@@ -61,16 +61,6 @@ public class H : IssueHandlerBase
         }
     }
 
-    public H()
-    {
-    }
-
-    public H(IReader reader, IWriter writer) : base(reader, writer)
-    {
-    }
-
-    public override int Number { get; } = 0;
-
     public override void Run()
     {
         int count = ReadInt();
@@ -103,7 +93,7 @@ public class H : IssueHandlerBase
         List<byte> ships = new();
         int fieldSizeX = field.GetLength(0);
         int fieldSizeY = field.GetLength(1);
-        foreach (var templateSet in _templates)
+        foreach (var templateSet in Templates)
         {
             int shipSize = templateSet[0].GetLength(0) - 2;
             if (fieldSizeX < shipSize || fieldSizeY < shipSize)

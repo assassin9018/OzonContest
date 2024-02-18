@@ -2,18 +2,8 @@
 
 namespace OzonContestLib.Contest;
 
-public class D : IssueHandlerBase
+public class D(IReader reader, IWriter writer) : IssueHandlerBase(reader, writer)
 {
-    public D()
-    {
-    }
-
-    public D(IReader reader, IWriter writer) : base(reader, writer)
-    {
-    }
-
-    public override int Number { get; }
-
     public override void Run()
     {
         //лютейший говнокод. Торопился

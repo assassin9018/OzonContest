@@ -2,18 +2,8 @@
 
 namespace OzonContestLib.Contest;
 
-public class C : IssueHandlerBase
+public class C(IReader reader, IWriter writer) : IssueHandlerBase(reader, writer)
 {
-    public C()
-    {
-    }
-
-    public C(IReader reader, IWriter writer) : base(reader, writer)
-    {
-    }
-
-    public override int Number { get; }
-
     public override void Run()
     {
         (int usersCount, int reqCount)= Read2Int();

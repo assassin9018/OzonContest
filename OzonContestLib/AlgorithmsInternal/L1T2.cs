@@ -2,18 +2,8 @@ using OzonContest.Helpers;
 
 namespace OzonContestLib.AlgorithmsInternal;
 
-public class L1T2 : IssueHandlerBase
+public class L1T2(IReader reader, IWriter writer) : IssueHandlerBase(reader, writer)
 {
-    public L1T2()
-    {
-    }
-
-    public L1T2(IReader reader, IWriter writer) : base(reader, writer)
-    {
-    }
-
-    public override int Number { get; } = 2;
-
     public override void Run()
     {
         var _ = ReadInt();

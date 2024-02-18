@@ -1,22 +1,11 @@
 ﻿using OzonContest.Helpers;
 
-namespace OzonContestLib.Contest
+namespace OzonContestLib.Contest;
+
+public class G(IReader reader, IWriter writer) : IssueHandlerBase(reader, writer)
 {
-    public class G : IssueHandlerBase
+    public override void Run()
     {
-        public G()
-        {
-        }
-
-        public G(IReader reader, IWriter writer) : base(reader, writer)
-        {
-        }
-
-        public override int Number { get; }
-
-        public override void Run()
-        {
-            throw new NotImplementedException();
-        }
+        throw new NotImplementedException();
     }
 }

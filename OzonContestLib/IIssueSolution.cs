@@ -2,7 +2,7 @@
 
 public interface IIssueHandler
 {
-    int Number { get; }
     string Name { get; }
+    string Namespace { get; }
     void Run();
 }

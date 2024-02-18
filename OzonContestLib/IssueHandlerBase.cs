@@ -8,10 +8,6 @@ public  abstract class IssueHandlerBase : IIssueHandler
     private readonly IReader _reader;
     private readonly IWriter _writer;
 
-    public string Name { get; }
-    public abstract int Number { get; }
-    public abstract void Run();
-
     public IssueHandlerBase():this(new ConsoleReader(), new ConsoleWriter())
     {
     }
@@ -21,7 +17,12 @@ public  abstract class IssueHandlerBase : IIssueHandler
         _reader = reader;
         _writer = writer;
         Name = GetType().Name;
+        Namespace = GetType().Namespace;
     }
+
+    public string? Namespace { get; set; }
+    public string Name { get; }
+    public abstract void Run();
 
     #region Read
 
