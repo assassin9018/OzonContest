@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OzonContestTests", "OzonCon
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OzonContestDataSet", "OzonContestDataSet\OzonContestDataSet.csproj", "{236ECDE2-DF7B-422B-8948-2B0F9669C114}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OzonContestConsole", "OzonContestConsole\OzonContestConsole.csproj", "{F448C766-EF51-43F6-845A-FEEF58AF7607}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{236ECDE2-DF7B-422B-8948-2B0F9669C114}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{236ECDE2-DF7B-422B-8948-2B0F9669C114}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{236ECDE2-DF7B-422B-8948-2B0F9669C114}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F448C766-EF51-43F6-845A-FEEF58AF7607}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F448C766-EF51-43F6-845A-FEEF58AF7607}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F448C766-EF51-43F6-845A-FEEF58AF7607}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F448C766-EF51-43F6-845A-FEEF58AF7607}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
